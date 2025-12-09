@@ -6,12 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Infrastructure.Repositories;
 
-public class AssignmentRepository : Repository<Assignment>, IAssignmentRepository
+public class AssignmentRepository(ApplicationDbContext context) : Repository<Assignment>(context), IAssignmentRepository
 {
-    public AssignmentRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
     public async Task<IEnumerable<Assignment>> GetByEquipmentIdAsync(Guid equipmentId, CancellationToken cancellationToken = default)
     {
         return await _dbSet

@@ -13,5 +13,5 @@ public class WarehouseTransaction : BaseEntity
     public DateTime TransactionDate { get; set; }
 
     // Navigation properties
-    public WarehouseItem WarehouseItem { get; set; } = null!;
+    public virtual WarehouseItem WarehouseItem { get; set; } = null!;
 }

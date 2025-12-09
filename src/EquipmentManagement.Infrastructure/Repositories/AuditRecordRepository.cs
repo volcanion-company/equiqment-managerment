@@ -5,12 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Infrastructure.Repositories;
 
-public class AuditRecordRepository : Repository<AuditRecord>, IAuditRecordRepository
+public class AuditRecordRepository(ApplicationDbContext context) : Repository<AuditRecord>(context), IAuditRecordRepository
 {
-    public AuditRecordRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
     public async Task<IEnumerable<AuditRecord>> GetByEquipmentIdAsync(Guid equipmentId, CancellationToken cancellationToken = default)
     {
         return await _dbSet

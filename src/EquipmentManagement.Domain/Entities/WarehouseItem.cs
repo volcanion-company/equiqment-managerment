@@ -10,5 +10,5 @@ public class WarehouseItem : BaseEntity
     public string? Notes { get; set; }
 
     // Navigation properties
-    public ICollection<WarehouseTransaction> Transactions { get; set; } = new List<WarehouseTransaction>();
+    public virtual ICollection<WarehouseTransaction> Transactions { get; set; } = [];
 }

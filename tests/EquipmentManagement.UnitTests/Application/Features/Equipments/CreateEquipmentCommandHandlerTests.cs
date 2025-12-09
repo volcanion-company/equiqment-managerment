@@ -36,8 +36,8 @@ public class CreateEquipmentCommandHandlerTests
         {
             Code = "EQ001",
             Name = "Test Equipment",
-            Type = "Computer",
-            Price = 1000,
+            Category = "Computer",
+            PurchasePrice = 1000,
             PurchaseDate = DateTime.UtcNow,
             Status = EquipmentStatus.New
         };
@@ -92,8 +92,8 @@ public class CreateEquipmentCommandHandlerTests
         {
             Code = "EQ002",
             Name = "Test Equipment 2",
-            Type = "Laptop",
-            Price = 2000,
+            Category = "Laptop",
+            PurchasePrice = 2000,
             PurchaseDate = DateTime.UtcNow,
             Status = EquipmentStatus.New
         };

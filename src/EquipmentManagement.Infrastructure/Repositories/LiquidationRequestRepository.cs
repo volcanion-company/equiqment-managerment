@@ -5,12 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Infrastructure.Repositories;
 
-public class LiquidationRequestRepository : Repository<LiquidationRequest>, ILiquidationRequestRepository
+public class LiquidationRequestRepository(ApplicationDbContext context) : Repository<LiquidationRequest>(context), ILiquidationRequestRepository
 {
-    public LiquidationRequestRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
     public async Task<IEnumerable<LiquidationRequest>> GetByEquipmentIdAsync(Guid equipmentId, CancellationToken cancellationToken = default)
     {
         return await _dbSet

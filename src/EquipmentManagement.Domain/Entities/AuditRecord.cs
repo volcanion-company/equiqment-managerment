@@ -14,5 +14,5 @@ public class AuditRecord : BaseEntity
     public DateTime? LastSyncDate { get; set; }
 
     // Navigation properties
-    public Equipment Equipment { get; set; } = null!;
+    public virtual Equipment Equipment { get; set; } = null!;
 }

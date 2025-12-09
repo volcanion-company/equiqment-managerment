@@ -6,20 +6,11 @@ using MediatR;
 
 namespace EquipmentManagement.Application.Features.Equipments.Commands.UpdateEquipment;
 
-public class UpdateEquipmentCommandHandler : IRequestHandler<UpdateEquipmentCommand, Unit>
+public class UpdateEquipmentCommandHandler(IUnitOfWork unitOfWork, ICacheService cacheService) : IRequestHandler<UpdateEquipmentCommand, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ICacheService _cacheService;
-
-    public UpdateEquipmentCommandHandler(IUnitOfWork unitOfWork, ICacheService cacheService)
-    {
-        _unitOfWork = unitOfWork;
-        _cacheService = cacheService;
-    }
-
     public async Task<Unit> Handle(UpdateEquipmentCommand request, CancellationToken cancellationToken)
     {
-        var equipment = await _unitOfWork.Equipments.GetByIdAsync(request.Id, cancellationToken);
+        var equipment = await unitOfWork.Equipments.GetByIdAsync(request.Id, cancellationToken);
         
         if (equipment == null || equipment.IsDeleted)
         {
@@ -39,11 +30,11 @@ public class UpdateEquipmentCommandHandler : IRequestHandler<UpdateEquipmentComm
         equipment.ImageUrl = request.ImageUrl;
         equipment.UpdatedAt = DateTime.UtcNow;
 
-        _unitOfWork.Equipments.Update(equipment);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        unitOfWork.Equipments.Update(equipment);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         // Invalidate cache
-        await _cacheService.RemoveByPrefixAsync("equipments_", cancellationToken);
+        await cacheService.RemoveByPrefixAsync("equipments_", cancellationToken);
 
         return Unit.Value;
     }
