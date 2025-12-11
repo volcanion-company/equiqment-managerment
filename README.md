@@ -256,15 +256,10 @@ Tạo file `appsettings.Development.json` trong `src/EquipmentManagement.WebAPI/
 cd src/EquipmentManagement.WebAPI
 
 # Tạo migration (nếu chưa có)
-dotnet ef migrations add InitialCreate \
-  --project ../EquipmentManagement.Infrastructure \
-  --startup-project . \
-  --output-dir Persistence/Migrations
+dotnet ef migrations add InitialCreate --project src/EquipmentManagement.Infrastructure --startup-project src/EquipmentManagement.WebAPI --output-dir Persistence/Migrations
 
 # Apply migration
-dotnet ef database update \
-  --project ../EquipmentManagement.Infrastructure \
-  --startup-project .
+dotnet ef database update --project src/EquipmentManagement.Infrastructure --startup-project src/EquipmentManagement.WebAPI
 ```
 
 #### Bước 4: Chạy ứng dụng

@@ -43,26 +43,26 @@ public class CreateEquipmentCommandValidatorTests
     public void Should_HaveError_When_TypeIsEmpty()
     {
         // Arrange
-        var command = new CreateEquipmentCommand { Type = string.Empty };
+        var command = new CreateEquipmentCommand { Category = string.Empty };
 
         // Act
         var result = _validator.TestValidate(command);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Type);
+        result.ShouldHaveValidationErrorFor(x => x.Category);
     }
 
     [Fact]
     public void Should_HaveError_When_PriceIsNegative()
     {
         // Arrange
-        var command = new CreateEquipmentCommand { Price = -100 };
+        var command = new CreateEquipmentCommand { PurchasePrice = -100 };
 
         // Act
         var result = _validator.TestValidate(command);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Price);
+        result.ShouldHaveValidationErrorFor(x => x.PurchasePrice);
     }
 
     [Fact]
@@ -86,8 +86,8 @@ public class CreateEquipmentCommandValidatorTests
         {
             Code = "EQ001",
             Name = "Test Equipment",
-            Type = "Computer",
-            Price = 1000,
+            Category = "Computer",
+            PurchasePrice = 1000,
             PurchaseDate = DateTime.UtcNow.AddDays(-1)
         };
 

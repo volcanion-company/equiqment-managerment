@@ -19,8 +19,8 @@ public class Equipment : BaseEntity
     public string? QRCodeBase64 { get; set; }
 
     // Navigation properties
-    public ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
-    public ICollection<MaintenanceRequest> MaintenanceRequests { get; set; } = new List<MaintenanceRequest>();
-    public ICollection<AuditRecord> AuditRecords { get; set; } = new List<AuditRecord>();
-    public ICollection<LiquidationRequest> LiquidationRequests { get; set; } = new List<LiquidationRequest>();
+    public virtual ICollection<Assignment> Assignments { get; set; } = [];
+    public virtual ICollection<MaintenanceRequest> MaintenanceRequests { get; set; } = [];
+    public virtual ICollection<AuditRecord> AuditRecords { get; set; } = [];
+    public virtual ICollection<LiquidationRequest> LiquidationRequests { get; set; } = [];
 }

@@ -7,18 +7,11 @@ using MediatR;
 
 namespace EquipmentManagement.Application.Features.Warehouses.Commands.CreateTransaction;
 
-public class CreateWarehouseTransactionCommandHandler : IRequestHandler<CreateWarehouseTransactionCommand, Guid>
+public class CreateWarehouseTransactionCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateWarehouseTransactionCommand, Guid>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CreateWarehouseTransactionCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Guid> Handle(CreateWarehouseTransactionCommand request, CancellationToken cancellationToken)
     {
-        var warehouseItem = await _unitOfWork.WarehouseItems.GetByIdAsync(request.WarehouseItemId, cancellationToken);
+        var warehouseItem = await unitOfWork.WarehouseItems.GetByIdAsync(request.WarehouseItemId, cancellationToken);
         
         if (warehouseItem == null || warehouseItem.IsDeleted)
         {
@@ -43,7 +36,7 @@ public class CreateWarehouseTransactionCommandHandler : IRequestHandler<CreateWa
         }
 
         warehouseItem.UpdatedAt = DateTime.UtcNow;
-        _unitOfWork.WarehouseItems.Update(warehouseItem);
+        unitOfWork.WarehouseItems.Update(warehouseItem);
 
         var transaction = request.Adapt<WarehouseTransaction>();
         transaction.Id = Guid.NewGuid();
@@ -51,8 +44,8 @@ public class CreateWarehouseTransactionCommandHandler : IRequestHandler<CreateWa
         transaction.CreatedAt = DateTime.UtcNow;
         transaction.IsDeleted = false;
 
-        await _unitOfWork.WarehouseTransactions.AddAsync(transaction, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await unitOfWork.WarehouseTransactions.AddAsync(transaction, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return transaction.Id;
     }

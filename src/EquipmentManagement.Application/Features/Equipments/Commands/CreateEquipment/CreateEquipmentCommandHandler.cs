@@ -6,22 +6,11 @@ using MediatR;
 
 namespace EquipmentManagement.Application.Features.Equipments.Commands.CreateEquipment;
 
-public class CreateEquipmentCommandHandler : IRequestHandler<CreateEquipmentCommand, Guid>
+public class CreateEquipmentCommandHandler(
+    IUnitOfWork unitOfWork,
+    IQRCodeService qrCodeService,
+    ICacheService cacheService) : IRequestHandler<CreateEquipmentCommand, Guid>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IQRCodeService _qrCodeService;
-    private readonly ICacheService _cacheService;
-
-    public CreateEquipmentCommandHandler(
-        IUnitOfWork unitOfWork,
-        IQRCodeService qrCodeService,
-        ICacheService cacheService)
-    {
-        _unitOfWork = unitOfWork;
-        _qrCodeService = qrCodeService;
-        _cacheService = cacheService;
-    }
-
     public async Task<Guid> Handle(CreateEquipmentCommand request, CancellationToken cancellationToken)
     {
         var equipment = request.Adapt<Equipment>();
@@ -30,13 +19,13 @@ public class CreateEquipmentCommandHandler : IRequestHandler<CreateEquipmentComm
         equipment.IsDeleted = false;
 
         // Generate QR Code
-        equipment.QRCodeBase64 = _qrCodeService.GenerateQRCode(equipment.Code);
+        equipment.QRCodeBase64 = qrCodeService.GenerateQRCode(equipment.Code);
 
-        await _unitOfWork.Equipments.AddAsync(equipment, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await unitOfWork.Equipments.AddAsync(equipment, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         // Invalidate cache
-        await _cacheService.RemoveByPrefixAsync("equipments_", cancellationToken);
+        await cacheService.RemoveByPrefixAsync("equipments_", cancellationToken);
 
         return equipment.Id;
     }

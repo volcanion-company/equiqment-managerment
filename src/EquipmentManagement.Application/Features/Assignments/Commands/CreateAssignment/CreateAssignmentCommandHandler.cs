@@ -7,18 +7,11 @@ using MediatR;
 
 namespace EquipmentManagement.Application.Features.Assignments.Commands.CreateAssignment;
 
-public class CreateAssignmentCommandHandler : IRequestHandler<CreateAssignmentCommand, Guid>
+public class CreateAssignmentCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateAssignmentCommand, Guid>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CreateAssignmentCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Guid> Handle(CreateAssignmentCommand request, CancellationToken cancellationToken)
     {
-        var equipment = await _unitOfWork.Equipments.GetByIdAsync(request.EquipmentId, cancellationToken);
+        var equipment = await unitOfWork.Equipments.GetByIdAsync(request.EquipmentId, cancellationToken);
         
         if (equipment == null || equipment.IsDeleted)
         {
@@ -28,7 +21,7 @@ public class CreateAssignmentCommandHandler : IRequestHandler<CreateAssignmentCo
         // Update equipment status
         equipment.Status = EquipmentStatus.InUse;
         equipment.UpdatedAt = DateTime.UtcNow;
-        _unitOfWork.Equipments.Update(equipment);
+        unitOfWork.Equipments.Update(equipment);
 
         var assignment = request.Adapt<Assignment>();
         assignment.Id = Guid.NewGuid();
@@ -36,8 +29,8 @@ public class CreateAssignmentCommandHandler : IRequestHandler<CreateAssignmentCo
         assignment.CreatedAt = DateTime.UtcNow;
         assignment.IsDeleted = false;
 
-        await _unitOfWork.Assignments.AddAsync(assignment, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await unitOfWork.Assignments.AddAsync(assignment, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return assignment.Id;
     }
