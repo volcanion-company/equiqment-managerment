@@ -13,5 +13,5 @@ public class LiquidationRequest : BaseEntity
     public bool IsApproved { get; set; }
 
     // Navigation properties
-    public Equipment Equipment { get; set; } = null!;
+    public virtual Equipment Equipment { get; set; } = null!;
 }

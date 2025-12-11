@@ -5,12 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Infrastructure.Repositories;
 
-public class WarehouseTransactionRepository : Repository<WarehouseTransaction>, IWarehouseTransactionRepository
+public class WarehouseTransactionRepository(ApplicationDbContext context) : Repository<WarehouseTransaction>(context), IWarehouseTransactionRepository
 {
-    public WarehouseTransactionRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
     public async Task<IEnumerable<WarehouseTransaction>> GetByWarehouseItemIdAsync(Guid warehouseItemId, CancellationToken cancellationToken = default)
     {
         return await _dbSet

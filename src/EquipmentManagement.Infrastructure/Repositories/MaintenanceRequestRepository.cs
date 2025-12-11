@@ -5,12 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Infrastructure.Repositories;
 
-public class MaintenanceRequestRepository : Repository<MaintenanceRequest>, IMaintenanceRequestRepository
+public class MaintenanceRequestRepository(ApplicationDbContext context) : Repository<MaintenanceRequest>(context), IMaintenanceRequestRepository
 {
-    public MaintenanceRequestRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
     public async Task<IEnumerable<MaintenanceRequest>> GetByEquipmentIdAsync(Guid equipmentId, CancellationToken cancellationToken = default)
     {
         return await _dbSet

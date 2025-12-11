@@ -1,4 +1,3 @@
-using EquipmentManagement.Domain.Enums;
 using MediatR;
 
 namespace EquipmentManagement.Application.Features.Assignments.Commands.CreateAssignment;

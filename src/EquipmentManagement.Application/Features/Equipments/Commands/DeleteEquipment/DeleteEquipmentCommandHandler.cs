@@ -6,20 +6,11 @@ using MediatR;
 
 namespace EquipmentManagement.Application.Features.Equipments.Commands.DeleteEquipment;
 
-public class DeleteEquipmentCommandHandler : IRequestHandler<DeleteEquipmentCommand, Unit>
+public class DeleteEquipmentCommandHandler(IUnitOfWork unitOfWork, ICacheService cacheService) : IRequestHandler<DeleteEquipmentCommand, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ICacheService _cacheService;
-
-    public DeleteEquipmentCommandHandler(IUnitOfWork unitOfWork, ICacheService cacheService)
-    {
-        _unitOfWork = unitOfWork;
-        _cacheService = cacheService;
-    }
-
     public async Task<Unit> Handle(DeleteEquipmentCommand request, CancellationToken cancellationToken)
     {
-        var equipment = await _unitOfWork.Equipments.GetByIdAsync(request.Id, cancellationToken);
+        var equipment = await unitOfWork.Equipments.GetByIdAsync(request.Id, cancellationToken);
         
         if (equipment == null || equipment.IsDeleted)
         {
@@ -30,11 +21,11 @@ public class DeleteEquipmentCommandHandler : IRequestHandler<DeleteEquipmentComm
         equipment.IsDeleted = true;
         equipment.UpdatedAt = DateTime.UtcNow;
 
-        _unitOfWork.Equipments.Update(equipment);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        unitOfWork.Equipments.Update(equipment);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         // Invalidate cache
-        await _cacheService.RemoveByPrefixAsync("equipments_", cancellationToken);
+        await cacheService.RemoveByPrefixAsync("equipments_", cancellationToken);
 
         return Unit.Value;
     }

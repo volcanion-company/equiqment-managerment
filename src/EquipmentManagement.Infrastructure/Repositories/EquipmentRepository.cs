@@ -5,12 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Infrastructure.Repositories;
 
-public class EquipmentRepository : Repository<Equipment>, IEquipmentRepository
+public class EquipmentRepository(ApplicationDbContext context) : Repository<Equipment>(context), IEquipmentRepository
 {
-    public EquipmentRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
     public async Task<Equipment?> GetByCodeAsync(string code, CancellationToken cancellationToken = default)
     {
         return await _dbSet.FirstOrDefaultAsync(e => e.Code == code, cancellationToken);

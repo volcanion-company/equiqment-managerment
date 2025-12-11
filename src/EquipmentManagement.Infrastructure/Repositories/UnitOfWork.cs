@@ -4,47 +4,34 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EquipmentManagement.Infrastructure.Repositories;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(
+    ApplicationDbContext context,
+    IEquipmentRepository equipments,
+    IWarehouseItemRepository warehouseItems,
+    IWarehouseTransactionRepository warehouseTransactions,
+    IAssignmentRepository assignments,
+    IAuditRecordRepository auditRecords,
+    IMaintenanceRequestRepository maintenanceRequests,
+    ILiquidationRequestRepository liquidationRequests) : IUnitOfWork
 {
-    private readonly ApplicationDbContext _context;
     private IDbContextTransaction? _transaction;
 
-    public UnitOfWork(
-        ApplicationDbContext context,
-        IEquipmentRepository equipments,
-        IWarehouseItemRepository warehouseItems,
-        IWarehouseTransactionRepository warehouseTransactions,
-        IAssignmentRepository assignments,
-        IAuditRecordRepository auditRecords,
-        IMaintenanceRequestRepository maintenanceRequests,
-        ILiquidationRequestRepository liquidationRequests)
-    {
-        _context = context;
-        Equipments = equipments;
-        WarehouseItems = warehouseItems;
-        WarehouseTransactions = warehouseTransactions;
-        Assignments = assignments;
-        AuditRecords = auditRecords;
-        MaintenanceRequests = maintenanceRequests;
-        LiquidationRequests = liquidationRequests;
-    }
-
-    public IEquipmentRepository Equipments { get; }
-    public IWarehouseItemRepository WarehouseItems { get; }
-    public IWarehouseTransactionRepository WarehouseTransactions { get; }
-    public IAssignmentRepository Assignments { get; }
-    public IAuditRecordRepository AuditRecords { get; }
-    public IMaintenanceRequestRepository MaintenanceRequests { get; }
-    public ILiquidationRequestRepository LiquidationRequests { get; }
+    public IEquipmentRepository Equipments { get; } = equipments;
+    public IWarehouseItemRepository WarehouseItems { get; } = warehouseItems;
+    public IWarehouseTransactionRepository WarehouseTransactions { get; } = warehouseTransactions;
+    public IAssignmentRepository Assignments { get; } = assignments;
+    public IAuditRecordRepository AuditRecords { get; } = auditRecords;
+    public IMaintenanceRequestRepository MaintenanceRequests { get; } = maintenanceRequests;
+    public ILiquidationRequestRepository LiquidationRequests { get; } = liquidationRequests;
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return await _context.SaveChangesAsync(cancellationToken);
+        return await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
-        _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+        _transaction = await context.Database.BeginTransactionAsync(cancellationToken);
     }
 
     public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
@@ -70,6 +57,6 @@ public class UnitOfWork : IUnitOfWork
     public void Dispose()
     {
         _transaction?.Dispose();
-        _context.Dispose();
+        context.Dispose();
     }
 }
