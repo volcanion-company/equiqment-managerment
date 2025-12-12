@@ -24,9 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EquipmentManagement.Application\EquipmentManagement.Application.csproj" />
-    <ProjectReference Include="..\..\src\EquipmentManagement.Domain\EquipmentManagement.Domain.csproj" />
-    <ProjectReference Include="..\..\src\EquipmentManagement.Infrastructure\EquipmentManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\libs\EquipmentManagement.Application\EquipmentManagement.Application.csproj" />
+    <ProjectReference Include="..\..\src\libs\EquipmentManagement.Domain\EquipmentManagement.Domain.csproj" />
+    <ProjectReference Include="..\..\src\libs\EquipmentManagement.Infrastructure\EquipmentManagement.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

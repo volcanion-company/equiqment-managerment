@@ -6,13 +6,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4F3E8B01-8C6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5F3E8B01-8C6D-4F9D-9E8A-1B2C3D4E5F6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Domain", "src\EquipmentManagement.Domain\EquipmentManagement.Domain.csproj", "{A1111111-1111-1111-1111-111111111111}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Domain", "src\libs\EquipmentManagement.Domain\EquipmentManagement.Domain.csproj", "{A1111111-1111-1111-1111-111111111111}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Application", "src\EquipmentManagement.Application\EquipmentManagement.Application.csproj", "{A2222222-2222-2222-2222-222222222222}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Application", "src\libs\EquipmentManagement.Application\EquipmentManagement.Application.csproj", "{A2222222-2222-2222-2222-222222222222}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Infrastructure", "src\EquipmentManagement.Infrastructure\EquipmentManagement.Infrastructure.csproj", "{A3333333-3333-3333-3333-333333333333}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Infrastructure", "src\libs\EquipmentManagement.Infrastructure\EquipmentManagement.Infrastructure.csproj", "{A3333333-3333-3333-3333-333333333333}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.WebAPI", "src\EquipmentManagement.WebAPI\EquipmentManagement.WebAPI.csproj", "{A4444444-4444-4444-4444-444444444444}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.WebAPI", "src\presentations\EquipmentManagement.WebAPI\EquipmentManagement.WebAPI.csproj", "{A4444444-4444-4444-4444-444444444444}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.UnitTests", "tests\EquipmentManagement.UnitTests\EquipmentManagement.UnitTests.csproj", "{B1111111-1111-1111-1111-111111111111}"
 EndProject
